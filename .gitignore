@@ -1,0 +1,7 @@
+*.pyc
+.*.swp
+.DS_Store
+.build
+lib
+.ropeproject/
+client_secrets.json
