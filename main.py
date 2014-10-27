@@ -1,19 +1,12 @@
-import json
 import webapp2
 
 from webapp2_extras import routes
 
-
-class GetAllTodos(webapp2.RequestHandler):
-    def get(self, todo_id):
-        """Returns a JSON formatted greeting"""
-
-        # TODO: Should retrieve data from a datastore
-        greeting = {'greeting': todo_id}
-        json.dumps(greeting, sort_keys=True, indent=4)
-
-        self.response.headers['Content-Type'] = 'text/plain'
-        self.response.write(json.dumps(greeting))
+from handlers import GetAllTodos 
+from handlers import GetTodo
+from handlers import CreateTodo
+from handlers import UpdateTodo
+from handlers import DeleteTodo
 
 
 app = webapp2.WSGIApplication([
@@ -25,22 +18,22 @@ app = webapp2.WSGIApplication([
                       methods=['GET']),
         # List one todo
         webapp2.Route('/<todo_id>',
-                      handler=GetAllTodos,
+                      handler=GetTodo,
                       name='get-all-todos',
                       methods=['GET']),
         # Create a new todo
         webapp2.Route('/',
-                      handler=GetAllTodos,
+                      handler=CreateTodo,
                       name='get-all-todos',
                       methods=['POST']),
         # Update an existing todo
         webapp2.Route('/<todo_id>',
-                      handler=GetAllTodos,
+                      handler=UpdateTodo,
                       name='get-all-todos',
                       methods=['PUT']),
         # Delete an existing todo
         webapp2.Route('/<todo_id>',
-                      handler=GetAllTodos,
+                      handler=DeleteTodo,
                       name='get-all-todos',
                       methods=['DELETE']),
     ]),
