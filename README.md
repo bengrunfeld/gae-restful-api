@@ -8,8 +8,6 @@ This app is intended for educational purposes only, and should NOT be used on pr
 
 To create a RESTful API for production purposes, you should use the [Endpoints API](https://cloud.google.com/appengine/docs/python/endpoints/create_api).
 
-You can see the documentation at [https://cloud.google.com/appengine/docs/python/endpoints/create_api](https://cloud.google.com/appengine/docs/python/endpoints/create_api)
-
 ## Installation
 
 ##### To set up the app locally:
