@@ -2,7 +2,8 @@ import webapp2
 
 from webapp2_extras import routes
 
-from handlers import GetAllTodos 
+from config import config
+from handlers import GetAllTodos
 from handlers import GetTodo
 from handlers import CreateTodo
 from handlers import UpdateTodo
@@ -37,4 +38,4 @@ app = webapp2.WSGIApplication([
                       name='get-all-todos',
                       methods=['DELETE']),
     ]),
-])
+], config=config())
