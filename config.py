@@ -1,5 +1,7 @@
 """
 Set up the config for the request handler
+
+Add a secret key for enhanced security
 """
 
 

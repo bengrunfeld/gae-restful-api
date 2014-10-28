@@ -1,3 +1,8 @@
+"""
+This file sets up a RESTful API, using HTTP methods combined with URI's to trigger
+handlers that retrieve, store, update and delete resources.
+"""
+
 import webapp2
 
 from webapp2_extras import routes

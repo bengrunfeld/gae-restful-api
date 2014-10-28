@@ -1,3 +1,9 @@
+"""
+The handlers below are triggered by routes.py
+
+They execute commands that retrieve, store, update and delete resources.
+"""
+
 import json
 import webapp2
 
