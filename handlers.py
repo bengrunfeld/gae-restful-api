@@ -7,16 +7,20 @@ They execute commands that retrieve, store, update and delete resources.
 import json
 import webapp2
 
+from google.appengine.ext import ndb
+
+from models import TodoModel
+
 
 class GetAllTodos(webapp2.RequestHandler):
     def get(self):
         """GET /: Retrieve all todos"""
 
-        message = {'Retrieve': "all"}
-        json.dumps(message, sort_keys=True, indent=4)
+        query_todos = TodoModel.query().fetch()
+        all_todos = [p.to_dict() for p in query_todos]
 
         self.response.headers['Content-Type'] = 'text/plain'
-        self.response.write(json.dumps(message))
+        self.response.write(all_todos)
 
 
 class GetTodo(webapp2.RequestHandler):
