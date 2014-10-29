@@ -15,7 +15,7 @@ To create a RESTful API for production purposes, you should use the [Endpoints A
 * Install the Google [App Engine Python SDK](https://cloud.google.com/appengine/downloads#Google_App_Engine_SDK_for_Python)
 * Run `git clone git@github.com:bengrunfeld/gae-restful-api.git && cd gae-restful-api`
 * Edit `app.yaml` and change the value for `application` from `gae-restful-api` to any name of your choice. You'll need it later
-* You can now test your app. Run the development server with `dev_appserver.py .`, then test the app using [Postman](http://www.getpostman.com/). You should be able to test a route at [http://localhost:8080/todos/api/v0.1.0/](http://localhost:8080/todos/api/v0.1.0/)
+* You can now test your app. Run the development server with `dev_appserver.py .`, then test the app using [Postman](http://www.getpostman.com/). You should be able to test a route at [http://target-domain/todos/api/v0.1.0/](http://target-domain/todos/api/v0.1.0/)
 
 ##### To set up an appspot for the app:
 
@@ -31,20 +31,20 @@ I suggest using [Postman](http://www.getpostman.com/) to send HTTP requests.
 
 ##### Create
 
-Send a HTTP POST request to [http://localhost:8080/todos/api/v0.1.0/](http://localhost:8080/todos/api/v0.1.0/) with form data of `Key: title, Value: [title of todo]`
+Send a HTTP POST request to [http://target-domain/todos/api/v0.1.0/](http://target-domain/todos/api/v0.1.0/) with form data of `Key: title, Value: [title of todo]`
 
 ##### Read all 
 
-Send a HTTP GET request to [http://localhost:8080/todos/api/v0.1.0/](http://localhost:8080/todos/api/v0.1.0/) 
+Send a HTTP GET request to [http://target-domain/todos/api/v0.1.0/](http://target-domain/todos/api/v0.1.0/) 
 
 ##### Read one
 
-Send a HTTP GET request to [http://localhost:8080/todos/api/v0.1.0/ndb-key-id](http://localhost:8080/todos/api/v0.1.0/ndb-key-id) 
+Send a HTTP GET request to [http://target-domain/todos/api/v0.1.0/ndb-key-id](http://target-domain/todos/api/v0.1.0/ndb-key-id) 
 
 ##### Update
 
-Send a HTTP PUT request to [http://localhost:8080/todos/api/v0.1.0/ndb-key-id](http://localhost:8080/todos/api/v0.1.0/ndb-key-id) with form data of `Key: title, Value: [new title of todo]`
+Send a HTTP PUT request to [http://target-domain/todos/api/v0.1.0/ndb-key-id](http://target-domain/todos/api/v0.1.0/ndb-key-id) with form data of `Key: title, Value: [new title of todo]`
 
 ##### Delete 
 
-Send a HTTP PUT request to [http://localhost:8080/todos/api/v0.1.0/ndb-key-id](http://localhost:8080/todos/api/v0.1.0/ndb-key-id) with **NO** form data 
+Send a HTTP DELETE request to [http://target-domain/todos/api/v0.1.0/ndb-key-id](http://target-domain/todos/api/v0.1.0/ndb-key-id) with **NO** form data 
