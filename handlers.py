@@ -72,7 +72,7 @@ class GetTodo(webapp2.RequestHandler):
             record = serialize_data(qry.get())
             
             self.response.headers['Content-Type'] = 'text/plain'
-            self.response.write(json.dumps(record), sort_keys=True, indent=4)
+            self.response.write(json.dumps(record, sort_keys=True, indent=4))
         except:
             raise Exception("Error: could not complete request")
 
