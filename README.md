@@ -24,3 +24,27 @@ To create a RESTful API for production purposes, you should use the [Endpoints A
 * You can use whatever name you want for `PROJECT NAME`, but for `PROJECT ID`, you need to use the same value you set above for `application` in `app.yaml`.
 * `cd` into your application directory and run `appcfg.py update .`. You will need to enter your email and password.
 * You can now view the application at `[your-project-id].appspot.com`, although to receive anything besides a **404 error**, you'll need to use a URI like [http://[your-project-id].appspot.com/todos/api/v0.1.0/](http://[your-project-id].appspot.com/todos/api/v0.1.0/)
+
+## Usage
+
+I suggest using [Postman](http://www.getpostman.com/) to send HTTP requests.
+
+##### Create
+
+Send a HTTP POST request to [http://localhost:8080/todos/api/v0.1.0/](http://localhost:8080/todos/api/v0.1.0/) with form data of `Key: title, Value: [title of todo]`
+
+##### Read all 
+
+Send a HTTP GET request to [http://localhost:8080/todos/api/v0.1.0/](http://localhost:8080/todos/api/v0.1.0/) 
+
+##### Read one
+
+Send a HTTP GET request to [http://localhost:8080/todos/api/v0.1.0/ndb-key-id](http://localhost:8080/todos/api/v0.1.0/ndb-key-id) 
+
+##### Update
+
+Send a HTTP PUT request to [http://localhost:8080/todos/api/v0.1.0/ndb-key-id](http://localhost:8080/todos/api/v0.1.0/ndb-key-id) with form data of `Key: title, Value: [new title of todo]`
+
+##### Delete 
+
+Send a HTTP PUT request to [http://localhost:8080/todos/api/v0.1.0/ndb-key-id](http://localhost:8080/todos/api/v0.1.0/ndb-key-id) with **NO** form data 
