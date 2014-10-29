@@ -6,62 +6,116 @@ They execute commands that retrieve, store, update and delete resources.
 
 import json
 import webapp2
+import datetime
 
 from google.appengine.ext import ndb
 
 from models import TodoModel
 
 
+def serialize_datetime(result):
+    """Return a dict with datetime object swapped out for an isoformat version"""
+
+    if isinstance(result['time_stored'], datetime.datetime):
+        return result['time_stored'].isoformat()
+
+    return None
+
+def build_new_dict(data):
+    """Build a new dict so that data can be JSON serializable"""
+
+    result = data.to_dict()
+    record = {}
+    record['time_stored'] = serialize_datetime(result)
+    record['title'] = result['title']
+    record['key'] = data.key.id()    
+    return record
+
+
+def serialize_data(qry):
+    """serialize ndb return data so that we can convert it to JSON"""
+    
+    # check if qry is a list (multiple records) or not (single record)
+    data = []
+    
+    if type(qry) != list: 
+        record = build_new_dict(qry) 
+        return record
+
+    for q in qry:
+        data.append(build_new_dict(q))
+
+    return data 
+
+
 class GetAllTodos(webapp2.RequestHandler):
     def get(self):
         """GET /: Retrieve all todos"""
 
-        query_todos = TodoModel.query().fetch()
-        all_todos = [p.to_dict() for p in query_todos]
+        try:
+            qry = TodoModel.query().fetch()
+            all_todos = serialize_data(qry)
 
-        self.response.headers['Content-Type'] = 'text/plain'
-        self.response.write(all_todos)
+            self.response.headers['Content-Type'] = 'text/plain'
+            self.response.write(json.dumps(all_todos, sort_keys=True, indent=4))
+        except:
+            # TODO: Improve this error 
+            raise Exception("Error: could not complete request")            
 
 
 class GetTodo(webapp2.RequestHandler):
     def get(self, todo_id):
         """GET /<todo_id>: Retrieve a single todo"""
 
-        message = {'Retrieve': todo_id}
-        json.dumps(message, sort_keys=True, indent=4)
-
-        self.response.headers['Content-Type'] = 'text/plain'
-        self.response.write(json.dumps(message))
+        try:
+            qry = ndb.Key('TodoModel', int(todo_id))
+            record = serialize_data(qry.get())
+            
+            self.response.headers['Content-Type'] = 'text/plain'
+            self.response.write(json.dumps(record), sort_keys=True, indent=4)
+        except:
+            raise Exception("Error: could not complete request")
 
 
 class CreateTodo(webapp2.RequestHandler):
     def post(self):
         """POST /: Create a single todo"""
 
-        message = {'Create': 'new'}
-        json.dumps(message, sort_keys=True, indent=4)
+        try:
+            new_todo = TodoModel(title = self.request.get('title')) 
+            key = new_todo.put()
 
-        self.response.headers['Content-Type'] = 'text/plain'
-        self.response.write(json.dumps(message))
+            self.response.headers['Content-Type'] = 'text/plain'
+            self.response.write('Successfully added new todo')
+        except:
+            raise Exception("Error: could not complete request")
 
 
 class UpdateTodo(webapp2.RequestHandler):
     def put(self, todo_id):
-        """PUT /<todo_id>: Update a single todo"""
-
-        message = {'Update': todo_id}
-        json.dumps(message, sort_keys=True, indent=4)
-
-        self.response.headers['Content-Type'] = 'text/plain'
-        self.response.write(json.dumps(message))
+        """PUT /<todo_id>: Update a single todo""" 
+        
+        try:
+            qry = ndb.Key('TodoModel', int(todo_id))
+            target = qry.get()
+            target.title = self.request.get('title')
+            target.put()
+            
+            self.response.headers['Content-Type'] = 'text/plain'
+            self.response.write('Record was updated')
+        except:
+            raise Exception("Error: could not complete request")
 
 
 class DeleteTodo(webapp2.RequestHandler):
     def delete(self, todo_id):
         """DELETE /<todo_id>: Delete a single todo"""
 
-        message = {'Delete': todo_id}
-        json.dumps(message, sort_keys=True, indent=4)
+        try:
+            qry = ndb.Key('TodoModel', int(todo_id))
+            qry.delete()
 
-        self.response.headers['Content-Type'] = 'text/plain'
-        self.response.write(json.dumps(message))
+            self.response.headers['Content-Type'] = 'text/plain'
+            self.response.write('{} was deleted'.format(todo_id))
+        except:
+            raise Exception("Error: could not complete request")
