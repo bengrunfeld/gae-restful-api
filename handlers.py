@@ -13,24 +13,24 @@ from google.appengine.ext import ndb
 from models import TodoModel
 
 
-def serialize_datetime(result):
-    """Return a dict with datetime object swapped out for an isoformat version"""
-
-    if isinstance(result['time_stored'], datetime.datetime):
-        return result['time_stored'].isoformat()
-
-    return None
-
 def build_new_dict(data):
-    """Build a new dict so that data can be JSON serializable"""
+    """Build a new dict so that the data can be JSON serializable"""
 
     result = data.to_dict()
     record = {}
-    record['time_stored'] = serialize_datetime(result)
-    record['title'] = result['title']
-    record['key'] = data.key.id()    
-    return record
 
+    # Populate the new dict with JSON serializiable values
+    for key in result.iterkeys():
+        if isinstance(result[key], datetime.datetime):
+            record[key] = result[key].isoformat()
+            continue
+        record[key] = result[key]
+    
+    # Add the key so that we have a reference to the record
+    record['key'] = data.key.id()
+
+    return record
+        
 
 def serialize_data(qry):
     """serialize ndb return data so that we can convert it to JSON"""
